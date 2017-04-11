@@ -15,7 +15,7 @@ user = ""
 password = ""
 
 #Para las cabeceras del email
-destinatario = "dillanma1@gmail.com"
+destinatario = "@gmail.com"
 asunto = "Nada"
 mensaje = "hola"
 archivo =  ''
