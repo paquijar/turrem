@@ -11,8 +11,8 @@ from email.mime.base import MIMEBase
 from email.encoders import encode_base64
 
 print("** Enviar email con Gmail **")
-user = "salasturrem@gmail.com"
-password = "turrem2017*"
+user = ""
+password = ""
 
 #Para las cabeceras del email
 destinatario = "dillanma1@gmail.com"
