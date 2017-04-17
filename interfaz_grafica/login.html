@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Login</title>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">  </script>
+        <script>
+            $(document).ready(function(){
+                var user,pass;
+                $("#login").click(function(){
+                    user=$("#email").val();
+                    pass=$("#password").val();
+                    $.post("http://localhost:8083/login",{user: user,password: pass}, function(data){
+                        if(data==='yes')
+                        {
+                            document.location.href = "http://localhost:8083/menu";
+                        }
+                        else {
+                            alert("usuario o contraseña incorrectos");
+                        }
+                    });
+                });
+            });
+        </script>
+		<meta name="generator" content="Login" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+        <!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+<!--login modal-->
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <h1 class="text-center">Iniciar Sesión</h1>
+      </div>
+      <div class="modal-body">
+            <div class="form-group">
+              <input type="text" id="email" class="form-control input-lg" placeholder="Correo electrónico">
+            </div>
+            <div class="form-group">
+              <input type="password" id="password" class="form-control input-lg" placeholder="Contraseña">
+            </div>
+            <div class="form-group">
+                <input type="button" id="login" value="Submit">
+                <!-- <a class="btn btn-primary btn-lg btn-block" id="login" >Ingresar</a> -->
+                 <!--href="menu.html"-->
+              <!-- <button class="btn btn-primary btn-lg btn-block">Ingresar</button> -->
+              <span><a href="restaurarContraseña.html">¿Olvidó su contraseña?</a></span>
+            </div>
+          
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-12">
+		  </div>	
+      </div>
+  </div>
+  </div>
+</div>
+	<!-- script references -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+	</body>
+</html>
