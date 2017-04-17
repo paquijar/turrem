@@ -8,7 +8,7 @@ const app = express()
 const influx = new Influx.InfluxDB('http://localhost:8086/hola')
 
 function usuario(user_name,password,response) {
-    influx.query('select * from usuario').then(results => {
+    influx.query('select * from "user"').then(results => {
         var ayud=JSON.stringify(results[results.length-1]);
     ayud = ayud.substring(ayud.indexOf("contraseña")+13,ayud.length);
     var contraseña = ayud.substring(0,ayud.indexOf("\""));
@@ -32,7 +32,7 @@ app.get('/',function(request, response){
 });
 
 app.get('/menu',function(request, response){
-  response.sendFile(__dirname+'/interfaz_grafica/public_html/menu.html');
+  response.sendFile(__dirname+'/interfaz_grafica/menu.html');
 });
 
 app.post('/login',function(request,response){
