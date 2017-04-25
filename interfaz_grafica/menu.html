@@ -9,30 +9,35 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Carousel Template for Bootstrap</title>
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <title >Turrem</title>
+    <link href="./menu.css" rel="stylesheet" type="text/css">
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <link href="./bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" >
     <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>    
+   
+   
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <script>
+      $(document).ready(function(){
+        $("#cerrar").click(function(){                    
+          document.location.href = "http://localhost:8083/";                                    
+        });
 
-    <!-- Custom styles for this template -->
-    <link href="css/menu.css" rel="stylesheet">
-  </head>
+        $("#cambiar").click(function(){                    
+          document.location.href = "http://localhost:8083/cambiar";                                    
+        });
+        
+        $("#rec").click(function(){                    
+          document.location.href = "http://localhost:8083/menu";                                    
+        });
+      });
+
+    </script>
+
 <!-- NAVBAR
 ================================================== -->
   <body>
@@ -48,19 +53,20 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Turrem</a>
+              <a class="navbar-brand" id="rec" >Turrem</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Inicio</a></li>
                 <li><a href="#about">Cámara</a></li>
-                <li><a href="#contact">Gráficas</a></li>
+                <li><a  href="http://localhost:3000/dashboard/db/new-dashboard-copy?orgId=1&from=1492423218937&to=1492444818937" target="_blank" >Gráficas</a></li>
                 <li><a href="#contact">Programar hora</a></li>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cuenta <span class="caret"></span></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cuenta<span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="cambiarContraseña.html">Cambiar contraseña</a></li>
-                    <li><a href="login.html">Cerrar sesión</a></li>
+                    <li><input type="button"  class="btn btn-link" id="cambiar" value="Cambiar contraseña"></li>
+                    <li><input type="button"  class="btn btn-link" id="cerrar" value="Cerrar sesión"></li>
+                                       
                   </ul>
                 </li>
               </ul>
@@ -101,18 +107,16 @@
       <!-- Three columns of text below the carousel -->
       <div class="row">
         <div class="col-lg-4">
-            <a href="login.html">
-          <span class="glyphicon glyphicon-facetime-video"> </span> </a>
+          <a><span class="glyphicon glyphicon-facetime-video"></span> </a>
           <h2>Cámara</h2>
           <p>Acá se puede visualizar en vivo la sala de compresores mediante el sistema de streaming</p>
-          <p><a class="btn btn-default" href="#" role="button">Ir ahora &raquo;</a></p>
+          <p><a class="btn btn-default" href="http://192.168.43.29:8081" target="_blank" role="button">Ir ahora &raquo;</a></p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
             <a href="#">
           <span class="glyphicon glyphicon-stats"> </span> </a><h2>Gráficas</h2>
           <p>Acá se pueden ver las estadísticas y el historial de las variables monitoreadas en los compresores</p>
-          <p><a class="btn btn-default" href="#" role="button">Ir ahora &raquo;</a></p>
-          <p><a href="http://localhost:3000/dashboard/db/new-dashboard-copy?orgId=1&from=1492423218937&to=1492444818937">Grafana</a></p>
+          <p><a class="btn btn-default" target="_blank" href="http://localhost:3000/dashboard/db/new-dashboard-copy?orgId=1&refresh=5s&from=1492729560603&to=1492730185980" role="button">Ir ahora &raquo;</a></p>
 
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
@@ -131,12 +135,14 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="s/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="../../dist/js/bootstrap.min.js"></script>
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="../../assets/js/vendor/holder.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+   
   </body>
 </html>

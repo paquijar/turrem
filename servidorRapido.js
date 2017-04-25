@@ -35,12 +35,26 @@ app.get('/menu',function(request, response){
   response.sendFile(__dirname+'/interfaz_grafica/menu.html');
 });
 
+app.get('/cambiar',function(request, response){
+  response.sendFile(__dirname+'/interfaz_grafica/cambiarContraseña.html');
+});
+
+app.get('/olvidar',function(request, response){
+  response.sendFile(__dirname+'/interfaz_grafica/restaurarContraseña.html');
+});
+
+
+app.use(express.static(__dirname + '/interfaz_grafica/public_html/css'));
+
+
 app.post('/login',function(request,response){
 
     var user_name=request.body.user;
     var password=request.body.password;
     usuario(user_name,password,response);
 });
+
+
 
 app.listen(8083, function(){
   console.log('Server Express Ready!');

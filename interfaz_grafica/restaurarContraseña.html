@@ -3,10 +3,26 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
-		<title>Bootstrap Login Form</title>
+		<title>Turrem</title>
 		<meta name="generator" content="Bootply" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="./menu.css" rel="stylesheet" type="text/css">
+
+    <link href="./bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" >
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>   
+    <script>
+      $(document).ready(function(){
+        $("#cerrar").click(function(){                    
+          document.location.href = "http://localhost:8083/";                                    
+        });
+        
+      });
+
+    </script>
+
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
@@ -18,7 +34,8 @@
   <div class="modal-dialog">
   <div class="modal-content">
       <div class="modal-header">
-          <a class="close" href="login.html">×</a>
+          <a type="button" class="close" id="cerrar">×</a>
+
           <h1 class="text-center">Restaurar Contraseña</h1>
       </div>
       <div class="modal-body">
