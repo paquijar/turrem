@@ -14,11 +14,33 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>   
     <script>
+
       $(document).ready(function(){
         $("#cerrar").click(function(){                    
           document.location.href = "http://localhost:8083/menu";                                    
         });
-        
+        $("#aceptar").click(function(){
+            var passActual, passNueva, passConfirm
+            passActual=$("#contraActual").val();
+            passNueva=$("#contraNueva").val();
+            passConfirm=$("#contraConfirm").val();
+            if (passNueva === passConfirm){
+                $.post("http://localhost:8083/cambiar",{passActual: passActual,passNueva: passNueva, passConfirm: passConfirm}, function(data){
+                    if(data==='yes')
+                    {
+                        alert("la contraseña fue actualizada satisfactoriamente");
+                        document.location.href = "http://localhost:8083/menu";
+                    }
+                    else {
+                        alert("la contraseña actual no coincide");
+                    }
+                });
+            }
+            else {
+                alert("la nueva contraseña y la confirmación de contraseña no coinciden");
+            }
+
+        });
       });
 
     </script>
@@ -35,16 +57,16 @@
       </div>
       <div class="modal-body">
               <div class="form-group">
-              <input type="text" class="form-control input-lg" placeholder="Contraseña actual">
+              <input type="text" class="form-control input-lg" id="contraActual" placeholder="Contraseña actual">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control input-lg" placeholder="Nueva contraseña">
+              <input type="text" class="form-control input-lg" id="contraNueva" placeholder="Nueva contraseña">
             </div>
             <div class="form-group">
-              <input type="password" class="form-control input-lg" placeholder="Confirmar contraseña">
+              <input type="password" class="form-control input-lg" id="contraConfirm" placeholder="Confirmar contraseña">
             </div>
             <div class="form-group">
-                <a class="btn btn-primary btn-lg btn-block" href="menu.html">Aceptar</a>
+                <input type="button" class="btn btn-primary btn-lg btn-block" id="aceptar" value="Aceptar">
               <!-- <button class="btn btn-primary btn-lg btn-block">Ingresar</button> -->
             </div>
       </div>
