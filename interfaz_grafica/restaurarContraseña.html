@@ -18,7 +18,27 @@
         $("#cerrar").click(function(){                    
           document.location.href = "http://localhost:8083/";                                    
         });
-        
+        $("#aceptar").click(function(){
+            var code,passNueva,passConfirm;
+            code=$("#codigo").val();
+            passNueva=$("#contraNueva").val();
+            passConfirm=$("#contraConfirm").val();
+            if (passNueva === passConfirm){
+                $.post("http://localhost:8083/recuperar",{code: code, passNueva: passNueva, passConfirm: passConfirm}, function(data){
+                    if(data==='yes')
+                    {
+                        alert("la contraseña fue actualizada satisfactoriamente");
+                        document.location.href = "http://localhost:8083/";
+                    }
+                    else {
+                        alert("el codigo de recuperacion no coincide");
+                    }
+                });
+            }
+            else {
+                alert("la nueva contraseña y la confirmación de contraseña no coinciden");
+            }
+        });
       });
 
     </script>
@@ -40,16 +60,16 @@
       </div>
       <div class="modal-body">
               <div class="form-group">
-              <input type="text" class="form-control input-lg" placeholder="Código recuperación">
+              <input type="text" id="codigo" class="form-control input-lg" placeholder="Código recuperación">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control input-lg" placeholder="Nueva contraseña">
+              <input type="text" id="contraNueva" class="form-control input-lg" placeholder="Nueva contraseña">
             </div>
             <div class="form-group">
-              <input type="password" class="form-control input-lg" placeholder="Confirmar contraseña">
+              <input type="password" id="contraConfirm" class="form-control input-lg" placeholder="Confirmar contraseña">
             </div>
             <div class="form-group">
-                <a class="btn btn-primary btn-lg btn-block" href="login.html">Aceptar</a>
+                <a class="btn btn-primary btn-lg btn-block" id="aceptar">Aceptar</a>
               <!-- <button class="btn btn-primary btn-lg btn-block">Ingresar</button> -->
             </div>
       </div>

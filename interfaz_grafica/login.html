@@ -30,7 +30,9 @@
                                
 
                 });
-                 $("#olvidar").click(function(){                    
+                 $("#olvidar").click(function(){
+                     $.post("http://localhost:8083/generar_codigo");
+                     alert("el codigo de recuperacion fue enviado al correo electronico salas******@gmail.com");
                     document.location.href = "http://localhost:8083/olvidar";                                    
                 }); 
             });
