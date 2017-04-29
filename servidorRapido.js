@@ -4,14 +4,17 @@ const http = require('http')
 const os = require('os')
 const bodyParser = require('body-parser')
 const bcrypt = require('bcryptjs')
-const sendemail = require('node-mandrill')('dde5db3072b59e26e113e68f56c93010-us15')
 const app = express()
 const influx = new Influx.InfluxDB('http://localhost:8086/hola')
 const salt = bcrypt.genSaltSync(10);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/interfaz_grafica/public_html/css'));
+app.set('view engine', 'ejs');
 
-function login(user_name,password,response) {
+var codeAuten;
+
+function login(user_name,password,res) {
     influx.query('select * from usuario').then(results => {
         var ayud=JSON.stringify(results[results.length-1]);
         ayud = ayud.substring(ayud.indexOf("contraseña")+13,ayud.length);
@@ -19,13 +22,16 @@ function login(user_name,password,response) {
         ayud = ayud.substring(ayud.indexOf("correo")+9,ayud.length);
         var correo = ayud.substring(0,ayud.indexOf("\""));
         if (user_name === correo && bcrypt.compareSync(password, contraseña) ) {
-            response.end("yes");
+            codeAuten = Math.round(Math.random()*100000);
+            codeAuten=codeAuten.toString()
+            res.end(codeAuten);
+            logueado=true;
         }
-        else {response.end("no")}
+        else {res.end("0");}
     });
 }
 
-function cambiar(pass_actual, pass_nueva, response) {
+function cambiar(pass_actual, pass_nueva, res) {
 
     influx.query('select * from usuario').then(results => {
         var ayud=JSON.stringify(results[results.length-1]);
@@ -42,13 +48,15 @@ function cambiar(pass_actual, pass_nueva, response) {
                     fields: {correo: correo1, contraseña: hash, value: 0},
                 }
             ]);
-                response.end("yes");}, 100);
+                codeAuten = Math.round(Math.random()*100000);
+                codeAuten=codeAuten.toString()
+                res.end(codeAuten);}, 100);
         }
-        else {response.end("no");}
+        else {res.end("0");}
     });
 }
 
-function recuperar(code, pass_nueva, response) {
+function recuperar(code, pass_nueva, res) {
     influx.query('select * from codigo_recuperacion').then(results => {
         var ayud=JSON.stringify(results[results.length-1]);
         ayud = ayud.substring(ayud.indexOf("codigo")+9,ayud.length);
@@ -64,44 +72,55 @@ function recuperar(code, pass_nueva, response) {
                     fields: {correo: correo1, contraseña: hash, value: 0},
                 }
             ]);
-                response.end("yes");}, 100);
+
+                res.end("yes");}, 100);
             }
-        else {response.end("no");}
+        else {res.end("no");}
     });
 }
 
-app.get('/',function(request, response){
-  response.sendFile(__dirname+'/interfaz_grafica/login.html');
+app.get('/',function(req, res){
+  //res.sendFile(__dirname+'/interfaz_grafica/login.html');
+    res.render('login');
 });
 
-app.get('/menu',function(request, response){
-  response.sendFile(__dirname+'/interfaz_grafica/menu.html');
+app.get('/menu',function(req, res){
+    if(req.param('codigo')==codeAuten) {
+        codeAuten="0";
+        res.render('menu');
+    }
+    else{
+        res.render('login');
+    }
 });
 
-app.get('/cambiar',function(request, response){
-  response.sendFile(__dirname+'/interfaz_grafica/cambiarContraseña.html');
+app.get('/cambiar',function(req, res){
+    if(req.param('codigo')==codeAuten) {
+        codeAuten="0";
+        res.render('cambiarContraseña');
+    }
+    else{
+        res.render('login');
+    }
 });
 
-app.get('/olvidar',function(request, response){
-  response.sendFile(__dirname+'/interfaz_grafica/restaurarContraseña.html');
+app.get('/olvidar',function(req, res){
+  res.render('restaurarContraseña');
 });
 
 
-app.use(express.static(__dirname + '/interfaz_grafica/public_html/css'));
 
-
-app.post('/login',function(request,response){
-
-    var user_name=request.body.user;
-    var password=request.body.password;
-    login(user_name,password,response);
+app.post('/login',function(req,res){
+    var user_name=req.body.user;
+    var password=req.body.password;
+    login(user_name,password,res);
 });
 
-app.post('/cambiar',function(request,response){
+app.post('/cambiar',function(req,res){
 
-    var passActual=request.body.passActual;
-    var passNueva=request.body.passNueva;
-    cambiar(passActual, passNueva, response);
+    var passActual=req.body.passActual;
+    var passNueva=req.body.passNueva;
+    cambiar(passActual, passNueva, res);
 
 });
 
@@ -115,13 +134,13 @@ app.post('/generar_codigo',function () {
             subject: "Hey, what's up?",
             text: "Hello"
         }
-    }, function(error, response)
+    }, function(error, res)
     {
         //uh oh, there was an error
         if (error) console.log( JSON.stringify(error) );
 
         //everything's good, lets see what mandrill said
-        else console.log(response);
+        else console.log(res);
     });
  */
     var hash = bcrypt.hashSync(code.toString(), salt);
@@ -134,12 +153,18 @@ app.post('/generar_codigo',function () {
 
 })
 
-app.post('/recuperar',function(request,response){
+app.post('/recuperar',function(req,res){
 
-    var code=request.body.code;
-    var passNueva=request.body.passNueva;
-    recuperar(code, passNueva, response);
+    var code=req.body.code;
+    var passNueva=req.body.passNueva;
+    recuperar(code, passNueva, res);
 
+});
+
+app.post('/menu',function (req,res) {
+    codeAuten = Math.round(Math.random()*100000);
+    codeAuten=codeAuten.toString()
+    res.end(codeAuten);
 });
 
 app.listen(8083, function(){

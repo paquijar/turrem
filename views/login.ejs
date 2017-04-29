@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Login</title>
+    <link href="./menu.css" rel="stylesheet" type="text/css">
+
+    <link href="./bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" >
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>   
+    
+    <script>
+            $(document).ready(function(){
+                var user,pass;
+                $("#login").click(function(){
+                    user=$("#email").val();
+                    pass=$("#password").val();
+                    $.post("http://localhost:8083/login",{user: user,password: pass}, function(data){
+                        if(data!="0") {
+                            document.location.href = "http://localhost:8083/menu?codigo="+data;
+                            //$.get("http://localhost:8083/menu",{authenticated: true})
+                        }
+                        else {
+                            alert("usuario o contraseña incorrectos");
+                        }
+                    });
+                               
+
+                });
+                 $("#olvidar").click(function(){
+                     $.post("http://localhost:8083/generar_codigo");
+                     alert("el codigo de recuperacion fue enviado al correo electronico salas******@gmail.com");
+                    document.location.href = "http://localhost:8083/olvidar";                                    
+                }); 
+            });
+        </script>
+		<meta name="generator" content="Login" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+       
+        <!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+<!--login modal-->
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <h1 class="text-center">Iniciar Sesión</h1>
+      </div>
+      <div class="modal-body">
+            <div class="form-group">
+              <input type="text" id="email" class="form-control input-lg" placeholder="Correo electrónico">
+            </div>
+            <div class="form-group">
+              <input type="password" id="password" class="form-control input-lg" placeholder="Contraseña">
+            </div>
+            <div class="form-group">
+                <input type="button" class="btn btn-primary btn-lg btn-block" id="login" value="Ingresar">
+                <input type="button" class="btn btn-primary btn-lg btn-block" id="olvidar" value="¿Olvidó su contraseña?">
+                
+                
+                <!-- <a class="btn btn-primary btn-lg btn-block" id="login" >Ingresar</a> -->
+                 <!--href="menu.html"   class="btn btn-success"--> 
+              <!-- <button class="btn btn-primary btn-lg btn-block">Ingresar</button> -->
+              <!--<span>              <a href="restaurarContraseña.html">¿Olvidó su contraseña?</a></span>-->
+            </div>
+          
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-12">
+		  </div>	
+      </div>
+  </div>
+  </div>
+</div>
+	<!-- script references -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  
+		
+	</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+
+    <title >Turrem</title>
+    <link href="./menu.css" rel="stylesheet" type="text/css">
+
+    <link href="./bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" >
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>    
+   
+   
+
+    <script>
+      $(document).ready(function(){
+        $("#cerrar").click(function(){                    
+          document.location.href = "http://localhost:8083/";                                    
+        });
+
+        $("#cambiar").click(function(){
+            $.post("http://localhost:8083/menu",{}, function(data){
+                if(data!="0") {
+                    document.location.href = "http://localhost:8083/cambiar?codigo="+data;
+                    //$.get("http://localhost:8083/menu",{authenticated: true})
+                }
+            });
+        });
+        
+        $("#rec").click(function(){                    
+          document.location.href = "http://localhost:8083/menu";                                    
+        });
+      });
+
+    </script>
+
+<!-- NAVBAR
+================================================== -->
+  <body>
+    <div class="navbar-wrapper">
+      <div class="container">
+
+        <nav class="navbar navbar-inverse navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" id="rec" >Turrem</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Inicio</a></li>
+                <li><a href="#about">Cámara</a></li>
+                <li><a  href="http://localhost:3000/dashboard/db/new-dashboard-copy?orgId=1&from=1492423218937&to=1492444818937" target="_blank" >Gráficas</a></li>
+                <li><a href="#contact">Programar hora</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cuenta<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><input type="button"  class="btn btn-link" id="cambiar" value="Cambiar contraseña"></li>
+                    <li><input type="button"  class="btn btn-link" id="cerrar" value="Cerrar sesión"></li>
+                                       
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+      </div>
+    </div>
+
+
+    <!-- Carousel
+    ================================================== -->
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      
+        <div class="item active">
+            <div class="container">
+            <div class="carousel-caption">
+              <h1>Monitoreo Sala Compresores</h1>
+              <p>En este momento los compresores se encuentran: Encendidos</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Encender/Apagar <span class="glyphicon glyphicon-off"> </span></a></p>
+            </div>
+          </div>
+        </div>
+       
+      
+      
+    </div><!-- /.carousel -->
+
+
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+    <div class="container marketing">
+
+      <!-- Three columns of text below the carousel -->
+      <div class="row">
+        <div class="col-lg-4">
+          <a><span class="glyphicon glyphicon-facetime-video"></span> </a>
+          <h2>Cámara</h2>
+          <p>Acá se puede visualizar en vivo la sala de compresores mediante el sistema de streaming</p>
+          <p><a class="btn btn-default" href="http://192.168.43.29:8081" target="_blank" role="button">Ir ahora &raquo;</a></p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+            <a href="#">
+          <span class="glyphicon glyphicon-stats"> </span> </a><h2>Gráficas</h2>
+          <p>Acá se pueden ver las estadísticas y el historial de las variables monitoreadas en los compresores</p>
+          <p><a class="btn btn-default" target="_blank" href="http://localhost:3000/dashboard/db/new-dashboard-copy?orgId=1&refresh=5s&from=1492729560603&to=1492730185980" role="button">Ir ahora &raquo;</a></p>
+
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+             <a href="#">
+          <span class="glyphicon glyphicon-time"> </span> </a>
+            <h2>Programar hora</h2>
+          <p>Acá se puede programar tanto la hora de encendido como de apagado de los compresores</p>
+          <p><a class="btn btn-default" href="#" role="button">Ir ahora &raquo;</a></p>
+        </div><!-- /.col-lg-4 -->
+      </div><!-- /.row -->
+
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="s/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+   
+  </body>
+</html>
