@@ -7,9 +7,15 @@ const bcrypt = require('bcryptjs')
 const app = express()
 const influx = new Influx.InfluxDB('http://localhost:8086/hola')
 const salt = bcrypt.genSaltSync(10);
+
+var PythonShell = require('python-shell');
+var pyshell = new PythonShell('enviarCorreo.py');
+
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/interfaz_grafica/public_html/css'));
+
 app.set('view engine', 'ejs');
 
 var codeAuten=0;
@@ -127,29 +133,33 @@ app.post('/cambiar',function(req,res){
 app.post('/generar_codigo',function () {
     var code = Math.round(Math.random()*10000);
     console.log(code);
-/**    sendemail('/messages/send', {
-        message: {
-            to: [{email: 'mauriciohoyosardila@gmail.com', name: 'mauricio'}],
-            from_email: 'mauriciohoyosardila@gmail.com',
-            subject: "Hey, what's up?",
-            text: "Hello"
-        }
-    }, function(error, res)
-    {
-        //uh oh, there was an error
-        if (error) console.log( JSON.stringify(error) );
 
-        //everything's good, lets see what mandrill said
-        else console.log(res);
+    pyshell.send(JSON.stringify([code]));
+
+	pyshell.on('message', function (message) {
+    // received a message sent from the Python script (a simple "print" statement)
+    	console.log(message);
+	});
+
+	pyshell.end(function (err) {
+    if (err){
+        throw err;
+        console.log(err);
+    };
+
+    	console.log('finished');
+    	
     });
- */
+
+
+
     var hash = bcrypt.hashSync(code.toString(), salt);
-    influx.writePoints([
+    /*influx.writePoints([
         {
             measurement: 'codigo_recuperacion',
             fields: {codigo: hash, value: 0},
         }
-    ]);
+    ]);*/
 
 })
 
