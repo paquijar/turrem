@@ -5,25 +5,23 @@ const os = require('os')
 const bodyParser = require('body-parser')
 const bcrypt = require('bcryptjs')
 const app = express()
-const influx = new Influx.InfluxDB('http://localhost:8086/hola')
+const influx = new Influx.InfluxDB('http://localhost:8086/Turrem')
 const salt = bcrypt.genSaltSync(10);
-
-var PythonShell = require('python-shell');
-var pyshell = new PythonShell('enviarCorreo.py');
-
+const PythonShell = require('python-shell')
+var pyshell= new PythonShell('enviarCorreo.py');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/interfaz_grafica/public_html/css'));
-
 app.set('view engine', 'ejs');
 
 var codeAuten=0;
 
 function login(user_name,password,res) {
-    influx.query('select * from usuario').then(results => {
+    influx.query('select * from Usuario').then(results => {
         var ayud=JSON.stringify(results[results.length-1]);
         ayud = ayud.substring(ayud.indexOf("contraseña")+13,ayud.length);
+
         var contraseña = ayud.substring(0,ayud.indexOf("\""));
         ayud = ayud.substring(ayud.indexOf("correo")+9,ayud.length);
         var correo = ayud.substring(0,ayud.indexOf("\""));
@@ -39,7 +37,7 @@ function login(user_name,password,res) {
 
 function cambiar(pass_actual, pass_nueva, res) {
 
-    influx.query('select * from usuario').then(results => {
+    influx.query('select * from Usuario').then(results => {
         var ayud=JSON.stringify(results[results.length-1]);
         ayud = ayud.substring(ayud.indexOf("contraseña")+13,ayud.length);
         var contraseña = ayud.substring(0,ayud.indexOf("\""));
@@ -50,7 +48,7 @@ function cambiar(pass_actual, pass_nueva, res) {
             influx.dropSeries({ measurement: m => m.name('usuario') });
             setTimeout( function (){influx.writePoints([
                 {
-                    measurement: 'usuario',
+                    measurement: 'Usuario',
                     fields: {correo: correo1, contraseña: hash, value: 0},
                 }
             ]);
@@ -63,18 +61,18 @@ function cambiar(pass_actual, pass_nueva, res) {
 }
 
 function recuperar(code, pass_nueva, res) {
-    influx.query('select * from codigo_recuperacion').then(results => {
+    influx.query('select * from Codigo_recuperacion').then(results => {
         var ayud=JSON.stringify(results[results.length-1]);
         ayud = ayud.substring(ayud.indexOf("codigo")+9,ayud.length);
         var codigo = ayud.substring(0,ayud.indexOf("\""));
         var correo1= 'mauriciohoyosardila@gmail.com';
         if ( bcrypt.compareSync(code, codigo) ) {
             var hash = bcrypt.hashSync(pass_nueva, salt);
-            influx.dropSeries({ measurement: m => m.name('codigo_recuperacion') });
-            influx.dropSeries({ measurement: m => m.name('usuario') });
+            influx.dropSeries({ measurement: m => m.name('Codigo_recuperacion') });
+            influx.dropSeries({ measurement: m => m.name('Usuario') });
             setTimeout( function (){influx.writePoints([
                 {
-                    measurement: 'usuario',
+                    measurement: 'Usuario',
                     fields: {correo: correo1, contraseña: hash, value: 0},
                 }
             ]);
@@ -133,33 +131,31 @@ app.post('/cambiar',function(req,res){
 app.post('/generar_codigo',function () {
     var code = Math.round(Math.random()*10000);
     console.log(code);
-
     pyshell.send(JSON.stringify([code]));
 
-	pyshell.on('message', function (message) {
-    // received a message sent from the Python script (a simple "print" statement)
-    	console.log(message);
-	});
+    pyshell.on('message', function (message) {
+        // received a message sent from the Python script (a simple "print" statement)
+        console.log(message);
+    });
 
-	pyshell.end(function (err) {
-    if (err){
-        throw err;
-        console.log(err);
-    };
+    pyshell.end(function (err) {
+        if (err){
+            throw err;
+            console.log(err);
+        };
 
-    	console.log('finished');
-    	
+        console.log('finished');
+
     });
 
 
-
     var hash = bcrypt.hashSync(code.toString(), salt);
-    /*influx.writePoints([
+    influx.writePoints([
         {
-            measurement: 'codigo_recuperacion',
+            measurement: 'Codigo_recuperacion',
             fields: {codigo: hash, value: 0},
         }
-    ]);*/
+    ]);
 
 })
 
