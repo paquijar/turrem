@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/interfaz_grafica/public_html/css'));
 app.set('view engine', 'ejs');
 
-var codeAuten;
+var codeAuten=0;
 
 function login(user_name,password,res) {
     influx.query('select * from usuario').then(results => {
