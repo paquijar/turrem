@@ -45,7 +45,15 @@
             });
         });
         $("#programar").click(function(){
-              $.post("http://localhost:8083/programarHora",{}, function(code){
+              $.post("http://localhost:8083/programarHoras",{}, function(code){
+                  if(code!="0") {
+                      document.location.href = "http://localhost:8083/programarHoras?codigo="+code;
+                      //$.get("http://localhost:8083/menu",{authenticated: true})
+                  }
+              });
+        });
+          $("#programar2").click(function(){
+              $.post("http://localhost:8083/programarHoras",{}, function(code){
                   if(code!="0") {
                       document.location.href = "http://localhost:8083/programarHoras?codigo="+code;
                       //$.get("http://localhost:8083/menu",{authenticated: true})
@@ -128,24 +136,23 @@
       <!-- Three columns of text below the carousel -->
       <div class="row">
         <div class="col-lg-4">
-          <a><span class="glyphicon glyphicon-facetime-video"></span> </a>
+          <a href="http://192.168.43.29:8081" target="_blank" role="button" ><span class="glyphicon glyphicon-facetime-video"></span> </a>
           <h2>Cámara</h2>
           <p>Acá se puede visualizar en vivo la sala de compresores mediante el sistema de streaming</p>
-          <p><a class="btn btn-default" href="http://192.168.43.29:8081" target="_blank" role="button">Ir ahora &raquo;</a></p>
+          <p><a class="btn btn-default" class="btn btn-default" href="http://192.168.43.29:8081" target="_blank" role="button">Ir ahora &raquo;</a></p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
-            <a href="#">
-          <span class="glyphicon glyphicon-stats"> </span> </a><h2>Gráficas</h2>
+            <a href="http://localhost:8080/dashboard/db/ensayo1?from=1493903755726&to=14939253557269" target="_blank" role="button"><span class="glyphicon glyphicon-stats"> </span> </a>
+          <h2>Gráficas</h2>
           <p>Acá se pueden ver las estadísticas y el historial de las variables monitoreadas en los compresores</p>
-          <p><a class="btn btn-default" href="http://localhost:8080/dashboard/db/ensayo1?from=1493903755726&to=14939253557269" target="_blank" role="button">Ir ahora &raquo;</a></p>
+          <p><a class="btn btn-default" class="btn btn-default" href="http://localhost:8080/dashboard/db/ensayo1?from=1493903755726&to=14939253557269" target="_blank" role="button">Ir ahora &raquo;</a></p>
 
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
-             <a href="#">
-          <span class="glyphicon glyphicon-time"> </span> </a>
+             <a id="programar" role="button"><span class="glyphicon glyphicon-time"> </span> </a>
             <h2>Programar hora</h2>
-          <p>Acá se puede programar tanto la hora de encendido como de apagado de los compresores</p>
-          <p><a class="btn btn-default" id="programar" role="button">Ir ahora &raquo;</a></p>
+            <p>Acá se puede programar tanto la hora de encendido como de apagado de los compresores</p>
+            <a class="btn btn-default" class="btn btn-default" id="programar2" role="button">Ir ahora &raquo;</a>
         </div><!-- /.col-lg-4 -->
       </div><!-- /.row -->
 

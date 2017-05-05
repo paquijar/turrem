@@ -188,8 +188,7 @@ app.post('/menu',function (req,res) {
     res.end(codeAuten);
 });
 
-app.post('/programarHora',function(req,res){
-
+app.post('/programarHoras',function(req,res){
     codeAuten = Math.round(Math.random()*100000);
     codeAuten=codeAuten.toString()
     res.end(codeAuten);
