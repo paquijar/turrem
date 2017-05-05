@@ -15,6 +15,12 @@ footer{
 
 /* CUSTOMIZE THE NAVBAR
 -------------------------------------------------- */
+.left{
+  float: left;
+}
+.right{
+  float: right;
+}
 
 /* Special class on .container surrounding .navbar, used for positioning it into place. */
 .navbar-wrapper {

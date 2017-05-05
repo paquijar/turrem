@@ -16,8 +16,13 @@
     <script>
 
       $(document).ready(function(){
-        $("#cerrar").click(function(){                    
-          document.location.href = "http://localhost:8083/menu";                                    
+        $("#cerrar").click(function(){
+            $.post("http://localhost:8083/menu",{}, function(code){
+                if(code!="0") {
+                    document.location.href = "http://localhost:8083/menu?codigo="+code;
+                    //$.get("http://localhost:8083/menu",{authenticated: true})
+                }
+            });
         });
         $("#aceptar").click(function(){
             var passActual, passNueva, passConfirm;
@@ -60,7 +65,7 @@
               <input type="text" class="form-control input-lg" id="contraActual" placeholder="Contraseña actual">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control input-lg" id="contraNueva" placeholder="Nueva contraseña">
+              <input type="password" class="form-control input-lg" id="contraNueva" placeholder="Nueva contraseña">
             </div>
             <div class="form-group">
               <input type="password" class="form-control input-lg" id="contraConfirm" placeholder="Confirmar contraseña">

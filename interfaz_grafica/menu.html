@@ -27,8 +27,13 @@
           document.location.href = "http://localhost:8083/";                                    
         });
 
-        $("#cambiar").click(function(){                    
-          document.location.href = "http://localhost:8083/cambiar";                                    
+        $("#cambiar").click(function(){
+            $.post("http://localhost:8083/menu",{}, function(data){
+                if(data!="0") {
+                    document.location.href = "http://localhost:8083/cambiar?codigo="+data;
+                    //$.get("http://localhost:8083/menu",{authenticated: true})
+                }
+            });
         });
         
         $("#rec").click(function(){                    
@@ -66,7 +71,7 @@
                   <ul class="dropdown-menu">
                     <li><input type="button"  class="btn btn-link" id="cambiar" value="Cambiar contraseña"></li>
                     <li><input type="button"  class="btn btn-link" id="cerrar" value="Cerrar sesión"></li>
-                                       
+
                   </ul>
                 </li>
               </ul>

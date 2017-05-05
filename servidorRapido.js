@@ -112,6 +112,19 @@ app.get('/olvidar',function(req, res){
   res.render('restaurarContraseña');
 });
 
+app.get('/programarHoras',function(req, res){
+    if(req.param('codigo')==codeAuten) {
+        codeAuten="0";
+        res.render('programarHora');
+    }
+    else{
+        res.render('login');
+    }
+
+
+});
+
+
 
 
 app.post('/login',function(req,res){
@@ -131,6 +144,8 @@ app.post('/cambiar',function(req,res){
 app.post('/generar_codigo',function () {
     var code = Math.round(Math.random()*10000);
     console.log(code);
+   /**
+    var pyshell= new PythonShell('enviarCorreo.py');
     pyshell.send(JSON.stringify([code]));
 
     pyshell.on('message', function (message) {
@@ -147,7 +162,7 @@ app.post('/generar_codigo',function () {
         console.log('finished');
 
     });
-
+*/
 
     var hash = bcrypt.hashSync(code.toString(), salt);
     influx.writePoints([
@@ -168,6 +183,13 @@ app.post('/recuperar',function(req,res){
 });
 
 app.post('/menu',function (req,res) {
+    codeAuten = Math.round(Math.random()*100000);
+    codeAuten=codeAuten.toString()
+    res.end(codeAuten);
+});
+
+app.post('/programarHora',function(req,res){
+
     codeAuten = Math.round(Math.random()*100000);
     codeAuten=codeAuten.toString()
     res.end(codeAuten);

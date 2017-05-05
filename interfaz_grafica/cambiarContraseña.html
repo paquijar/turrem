@@ -26,10 +26,10 @@
             passConfirm=$("#contraConfirm").val();
             if (passNueva === passConfirm){
                 $.post("http://localhost:8083/cambiar",{passActual: passActual,passNueva: passNueva, passConfirm: passConfirm}, function(data){
-                    if(data==='yes')
+                    if(data!='0')
                     {
                         alert("la contraseña fue actualizada satisfactoriamente");
-                        document.location.href = "http://localhost:8083/menu";
+                        document.location.href = "http://localhost:8083/menu?codigo="+data;
                     }
                     else {
                         alert("la contraseña actual no coincide");

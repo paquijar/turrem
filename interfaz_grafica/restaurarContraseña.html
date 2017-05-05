@@ -25,7 +25,7 @@
             passConfirm=$("#contraConfirm").val();
             if (passNueva === passConfirm){
                 $.post("http://localhost:8083/recuperar",{code: code, passNueva: passNueva, passConfirm: passConfirm}, function(data){
-                    if(data==='yes')
+                    if(data!="0")
                     {
                         alert("la contraseña fue actualizada satisfactoriamente");
                         document.location.href = "http://localhost:8083/";

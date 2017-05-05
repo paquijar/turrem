@@ -23,7 +23,7 @@ for item in lines:
     total_sum_inArray += item
 
 #return the sum to the output stream
-print total_sum_inArray
+print (total_sum_inArray)
 print("** Enviar email con Gmail **")
 user = "salasturrem@gmail.com "
 #password = getpass.getpass("clave del correo del remitente")
