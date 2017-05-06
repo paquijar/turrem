@@ -57,14 +57,20 @@
                     dia1=$("#dia1").val();
                     hora1=$("#hora1").val();
                     min1=$("#min1").val();
-                    $.post("http://localhost:8083/login",{mes1: mes1,dia1: dia1, hora1: hora1, min1: min1}, function(data){
-                         if(data!="0") {
-                            document.location.href = "http://localhost:8083/menu?codigo="+data;
+                    $.post("http://localhost:8083/guardar",{mes: mes1,dia: dia1, hora: hora1, min: min1, tipo: "inicio"}, function(data){
+                             var datos=data.split("/");
+                             if (datos.length ==3) {
+                                 alert("             La hora de encendido ha sido establecidad correctamente " + "\n"
+                                     + "                                         Dia: " + datos[0] + " / " + datos[1] + "\n"
+                                     + "                                         Hora: " + datos[2]);
+                             }
+                             else{
+                                 alert("                    La hora de encendido del dia: "+datos[0]+" / "+datos[1]+"\n"
+                                     + "                                         Hora: " + datos[3]+ "\n"
+                                     +"                         ha sido remplazada por: "+ datos[2]);
+                             }
                             //$.get("http://localhost:8083/menu",{authenticated: true})
-                        }
-                        else {
-                            alert("usuario o contraseña incorrectos");
-                        }
+
                     });
                                
                 });
@@ -73,13 +79,17 @@
                     dia2=$("#dia2").val();
                     hora2=$("#hora2").val();
                     min2=$("#min2").val();
-                    $.post("http://localhost:8083/login",{mes2: mes2,dia2: dia2, hora2: hora2, min2: min2}, function(data){
-                         if(data!="0") {
-                            document.location.href = "http://localhost:8083/menu?codigo="+data;
-                            //$.get("http://localhost:8083/menu",{authenticated: true})
+                    $.post("http://localhost:8083/guardar",{mes: mes2,dia: dia2, hora: hora2, min: min2, tipo: "apagado"}, function(data){
+                        var datos=data.split("/");
+                        if (datos.length ==3) {
+                            alert("             La hora de apagado ha sido establecidad correctamente " + "\n"
+                                + "                                         Dia: " + datos[0] + " / " + datos[1] + "\n"
+                                + "                                         Hora: " + datos[2]);
                         }
-                        else {
-                            alert("usuario o contraseña incorrectos");
+                        else{
+                            alert("                    La hora de apagado del dia: "+datos[0]+" / "+datos[1]+"\n"
+                                + "                                         Hora: " + datos[3]+ "\n"
+                                +"                         ha sido remplazada por: "+ datos[2]);
                         }
                     });
                                
@@ -180,7 +190,7 @@
             $("input[name='demo1']").TouchSpin({
                 min: 0,
                 max: 23,
-                postfix: 'h'
+                postfix: 'hora'
             });
         </script>
         <div class="col-md-3">
@@ -191,7 +201,7 @@
             $("input[name='demo2']").TouchSpin({
                 min: 0,
                 max: 59,
-                postfix: 'm'
+                postfix: 'min'
             });
         </script>
         &nbsp
@@ -228,7 +238,7 @@
             $("input[name='demo1']").TouchSpin({
                 min: 0,
                 max: 23,
-                postfix: 'h'
+                postfix: 'hora'
             });
         </script>
         <div class="col-md-3">
@@ -239,7 +249,7 @@
             $("input[name='demo2']").TouchSpin({
                 min: 0,
                 max: 59,
-                postfix: 'm'
+                postfix: 'min'
             });
         </script>
               
