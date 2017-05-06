@@ -60,6 +60,15 @@
                   }
               });
           });
+          $("#encender-apagar").click(function(){
+              $.post("http://localhost:8083/encender-apagar",{}, function(code){
+                  if(code!="0") {
+                      document.location.href = "http://localhost:8083/menu?codigo="+code;
+                      //$.get("http://localhost:8083/menu",{authenticated: true})
+                  }
+              });
+          });
+
       });
 
     </script>
@@ -116,8 +125,8 @@
             <div class="container">
             <div class="carousel-caption">
               <h1>Monitoreo Sala Compresores</h1>
-              <p>En este momento los compresores se encuentran: Encendidos</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Encender/Apagar <span class="glyphicon glyphicon-off"> </span></a></p>
+              <p>En este momento los compresores se encuentran: <%= estado %></p>
+              <p><a class="btn btn-lg btn-primary" id="encender-apagar" role="button">Encender/Apagar <span class="glyphicon glyphicon-off"> </span></a></p>
             </div>
           </div>
         </div>

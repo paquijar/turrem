@@ -24,7 +24,7 @@ var mesActual = (date.getMonth()+1).toString();
 var diaActual = date.getDate().toString();
 var minActual = date.getMinutes().toString();
 var horaActual = date.getHours().toString();
-var estado = "apagado";
+var estado = "apagados";
 influx.writePoints([{
     measurement: 'Compresores',
     fields: {value: 0},
@@ -54,8 +54,8 @@ setInterval(function () {
         if (diaActual == inicioHoy[0]) {
             if (minActual == inicioHoy[3]) {
                 if (horaActual == inicioHoy[2]) {
-                    if (estado == "apagado") {
-                        estado = "prendido";
+                    if (estado == "apagados") {
+                        estado = "encendidos";
                         influx.dropSeries({ measurement: m => m.name('Compresores')});
                         setTimeout(function () {
                             influx.writePoints([{
@@ -72,8 +72,8 @@ setInterval(function () {
         if (diaActual == apagadoHoy[0]) {
             if (minActual == apagadoHoy[3]) {
                 if (horaActual == apagadoHoy[2]) {
-                    if (estado == "prendido") {
-                        estado = "apagado"
+                    if (estado == "encendidos") {
+                        estado = "apagados"
                         influx.dropSeries({ measurement: m => m.name('Compresores')});
                         setTimeout(function () {
                             influx.writePoints([{
@@ -189,7 +189,7 @@ function guardar(mes, dia, hora, min, tipo, res) {
         //console.log(horarioInicio.get(mes).get(dia));
 //        console.log(date.getDate()+" "+date.getFullYear()+" "+date.getDay());
     }
-    if (tipo ==="apagado"){
+    if (tipo ==="apagados"){
         if (horarioApagado.get(mes) != undefined){
             if (horarioApagado.get(mes).get(dia) != undefined){
                 var mesage2 = dia.toString()+"/"+mes.toString()+"/"+hora.toString()+":"+min.toString()+
@@ -224,6 +224,31 @@ function guardar(mes, dia, hora, min, tipo, res) {
 
 }
 
+function encender_apagar() {
+    if (estado == "apagados") {
+        estado = "encendidos";
+        influx.dropSeries({ measurement: m => m.name('Compresores')});
+        setTimeout(function () {
+            influx.writePoints([{
+                measurement: 'Compresores',
+                fields: {value: 1},
+            }]);
+        },100);
+    }
+    else {
+        if (estado == "encendidos") {
+            estado = "apagados"
+            influx.dropSeries({measurement: m => m.name('Compresores')});
+            setTimeout(function () {
+                influx.writePoints([{
+                    measurement: 'Compresores',
+                    fields: {value: 0},
+                }]);
+            }, 100);
+        }
+    }
+}
+
 //get de la pagina principal
 app.get('/',function(req, res){
   //res.sendFile(__dirname+'/interfaz_grafica/login.html');
@@ -234,7 +259,7 @@ app.get('/',function(req, res){
 app.get('/menu',function(req, res){
     if(req.param('codigo')==codeAuten) {
         codeAuten="0";
-        res.render('menu');
+        res.render('menu', {estado: estado});
     }
     else{
         res.render('login');
@@ -351,10 +376,17 @@ app.post('/guardar',function (req,res) {
     var min = req.body.min;
     var tipo = req.body.tipo;
     guardar(mes,dia,hora, min, tipo, res);
-})
+});
+
+app.post('/encender-apagar',function (req,res) {
+    encender_apagar();
+    codeAuten = Math.round(Math.random()*100000);
+    codeAuten=codeAuten.toString()
+    res.end(codeAuten);
+});
 
 //llamado al local host para establecer el servidor
 app.listen(8083, function(){
   console.log('Server Express Ready!');
-});
+})
 
