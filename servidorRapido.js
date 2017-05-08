@@ -35,6 +35,7 @@ var apagadoHoy = [diaActual,mesActual,"0","0"];
 
 // funcion que se encarga de capturar el tiempo actual y de prender y apagar los compresores a la hora asignada del mismo dia
 setInterval(function () {
+
     date= new Date();
     // captura de tiempo actual ================================
     //console.log(minActual+"  "+date.getMinutes().toString());
@@ -48,7 +49,7 @@ setInterval(function () {
         if (diaActual == "1")   mesActual = (date.getMonth()+1).toString();
     }
     //==============================================
-
+    //console.log(inicioHoy+" "+ apagadoHoy+" "+diaActual+" "+mesActual+" "+horaActual+" "+minActual);
     // encendido y apagado de los compresores, modificacion de la base de datos para porder ser prendidos ================
     if (mesActual == inicioHoy[1]) {
         if (diaActual == inicioHoy[0]) {

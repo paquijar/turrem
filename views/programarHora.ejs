@@ -79,7 +79,7 @@
                     dia2=$("#dia2").val();
                     hora2=$("#hora2").val();
                     min2=$("#min2").val();
-                    $.post("http://localhost:8083/guardar",{mes: mes2,dia: dia2, hora: hora2, min: min2, tipo: "apagado"}, function(data){
+                    $.post("http://localhost:8083/guardar",{mes: mes2,dia: dia2, hora: hora2, min: min2, tipo: "apagados"}, function(data){
                         var datos=data.split("/");
                         if (datos.length ==3) {
                             alert("             La hora de apagado ha sido establecidad correctamente " + "\n"
