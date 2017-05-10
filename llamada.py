@@ -112,9 +112,10 @@ while True:
         valorCamara= recibirDato(direccion2,"Camara")
         #prenderCamara(valorCamara)
         
-        #if (int(presReading)>5000 or int(tempReading)>5000):
-        #    os.system('fswebcam image.jpg')           
-        #    enviarCorreo("Alerta en compresores","Los compresores han alcanzado niveles criticos","/home/pi/Desktop/turrem/image.jpg")
+        if (int(presReading)>500 or int(tempReading)>500):
+            apagarCompresores()
+            os.system('fswebcam image.jpg')           
+            enviarCorreo("Alerta en compresores","Los compresores han alcanzado niveles criticos","/home/pi/Desktop/turrem/image.jpg")
        
         
     
